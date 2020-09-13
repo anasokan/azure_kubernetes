@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      name: web-server
+      labels: 
+        app: web-server
+    spec:
+      imagePullSecrets:
+      - name: myregistrykey
+      containers:
+      - name: web-server
+        image: docker.io/ananthaa/testserver_anantha:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: web-port
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      terminationGracePeriodSeconds: 60
