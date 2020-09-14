@@ -2,7 +2,7 @@
 
 This repository will show how to make a docker image and host it in Azure Kubernetes cluster.
 
-##Pre-requisites
+## Pre-requisites
 1. Create a account in https://hub.docker.com/. Here the docker images can be stored and used in any cloud providers environment.
 2. Create a account in Azure https://azure.microsoft.com/en-in/features/azure-portal/. There will be some free credit for first time user with which you can explore and learn Azure as well as Azure Kubernetes Service (AKS).
 3. A machine with docker installed.
@@ -12,8 +12,8 @@ This repository will show how to make a docker image and host it in Azure Kubern
     - For Azure Cli installation, refer to https://documentation.solarwinds.com/en/Success_Center/SEM/Content/AzureDeploymentGuide/SEM-Install-CLI-2-0.htm
 
 
-##Details
-###Step 1: Create a docker images and save to registry
+## Details
+### Step 1: Create a docker images and save to registry
 1. Go to the folder docker_images\WebServer
 2. In that folder you can see
     - A simple nodejs file which a page stating Welcome.
@@ -23,7 +23,7 @@ This repository will show how to make a docker image and host it in Azure Kubern
 5. The push the docker image you created to docker.io using the command 'docker push ananthaa/testserver_anantha:latest'
 
 
-###Step 2: Create a Azure Kubernetes Cluster and Map the config to the machine
+### Step 2: Create a Azure Kubernetes Cluster and Map the config to the machine
 1. Go to the portal http://portal.azure.com/ and login with your azure account.
 2. Search for Kubernetes Service and click on 'Add' -> 'Add Kubernetes Clsuter'
 3. Select the 'Free trail' susbcription and create a resource group.
@@ -34,9 +34,15 @@ This repository will show how to make a docker image and host it in Azure Kubern
 8. Execute those command in the machine where you have installed azure cli and kubetctl.
 9. After all installation when you execute, 'kubectl get nodes' you will see the list of nodes(VM's) in your kubernetes cluster.
 
-###Step 3: Deploy the docker images created.
+### Step 3: Deploy the docker images created.
 1. Go to the folder 'kubernets_deployment' in the repository.
-2. Now apply the docker-secret.yaml 
+2. Now update the docker-secret.yaml with your docker.io token in base 64 and then apply the secret. Command 'kubectl apply -f docker-secret.yaml'. To generate docker.io token 
+    - docker login in any machine with your docker credentials.
+    - Then there will be a docker config.json file in the home directory under .docker directory.
+    - cat that file with base64 encoding like 'cat config.json | base64' and take the base64 encoded value.
+3. Then apply the deployment file server-deployment.yaml.
+4. Then create the service using service.yaml
+5. After this fetch the service using 'kubectl get svc'. Take the external IP created and access it from web browser to check the final output.
 
 
 
