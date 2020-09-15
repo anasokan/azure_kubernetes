@@ -13,8 +13,8 @@ spec:
       labels: 
         app: web-server
     spec:
-      imagePullSecrets:
-      - name: myregistrykey
+      #imagePullSecrets:
+      #- name: myregistrykey
       containers:
       - name: web-server
         image: docker.io/ananthaa/testserver_anantha:latest
@@ -26,4 +26,3 @@ spec:
           limits:
             cpu: 500m
             memory: 512Mi
-      terminationGracePeriodSeconds: 60
